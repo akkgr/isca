@@ -5,3 +5,11 @@ exports.removeExtensionFromFile = file => {
     .join('.')
     .toString()
 }
+
+exports.handleError = (res, err) => {
+  res.status(err.code).json({
+    errors: {
+      msg: err.message
+    }
+  })
+}
