@@ -40,7 +40,7 @@ app.use(helmet())
 app.use(require('./routes'))
 
 const initDb = require('./db').initDb
-initDb(function(err, db) {
+initDb(function(err, client, db) {
   passport.use(
     new JwtStrategy(
       {
@@ -67,10 +67,31 @@ initDb(function(err, db) {
       }
     )
   )
-  app.listen(process.env.PORT, function(err) {
+
+  const server = app.listen(process.env.PORT, function(err) {
     if (err) {
       throw err
     }
     console.log('API Up and running on port ' + process.env.PORT)
+  })
+
+  const closeServer = () => {
+    server.close(() => {
+      console.log('Http server closed.')
+      client.close(false, () => {
+        console.log('MongoDb connection closed.')
+        process.exit(0)
+      })
+    })
+  }
+
+  process.on('SIGTERM', () => {
+    console.info('SIGTERM signal received.')
+    closeServer()
+  })
+
+  process.on('SIGINT', () => {
+    console.info('SIGINT signal received.')
+    closeServer()
   })
 })
