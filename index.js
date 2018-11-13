@@ -45,8 +45,8 @@ initDb(function(err, db) {
     new JwtStrategy(
       {
         secretOrKey: process.env.JWT_SECRET,
-        issuer: '',
-        audience: '',
+        issuer: process.env.JWT_ISSUER,
+        audience: process.env.JWT_AUDIENCE,
         algorithms: ['HS256'],
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
       },
