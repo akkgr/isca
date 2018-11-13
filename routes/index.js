@@ -17,14 +17,14 @@ fs.readdirSync(routesPath).filter(file => {
   const routeFile = removeExtensionFromFile(file)
   // Prevents loading of this file and auth file
   return routeFile !== 'index' && routeFile !== 'auth'
-    ? router.use(`/${routeFile}`, require(`./${routeFile}`))
+    ? router.use(`/api/${routeFile}`, require(`./${routeFile}`))
     : ''
 })
 
 /*
  * Setup routes for index
  */
-router.get('/', (req, res) => {
+router.get('/api', (req, res) => {
   res.send('API Home')
 })
 
