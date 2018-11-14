@@ -41,6 +41,11 @@ app.use(require('./routes'))
 
 const initDb = require('./db').initDb
 initDb(function(err, client, db) {
+  if (err) {
+    console.error(err)
+    return
+  }
+
   passport.use(
     new JwtStrategy(
       {

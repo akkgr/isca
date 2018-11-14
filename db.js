@@ -1,11 +1,10 @@
-require('dotenv').config()
 const MongoClient = require('mongodb').MongoClient
 
 let _db
 let client
 
 function initDb(callback) {
-  client = new MongoClient(process.env.MONGO_URI)
+  client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true })
   client.connect(function connected(err) {
     if (err) {
       return callback(err)

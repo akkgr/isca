@@ -9,7 +9,7 @@ const requireAuth = passport.authenticate('jwt', {
 router.get('/', requireAuth, async (req, res) => {
   const db = require('../db').getDb()
   const data = await db
-    .collection('users')
+    .collection('nodes')
     .find({})
     .toArray()
   res.json(data)
