@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
+const { handleError } = require('../controllers/base')
 
 router.post('/', async (req, res) => {
   const db = require('../db').getDb()
@@ -24,11 +25,7 @@ router.post('/', async (req, res) => {
     )
     res.json({ token })
   } else {
-    res.status(401).json({
-      errors: {
-        msg: 'NOT_FOUND'
-      }
-    })
+    handleError(res, 401, 'Invalid username or password.')
   }
 })
 

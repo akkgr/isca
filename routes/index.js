@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const fs = require('fs')
 const routesPath = `${__dirname}/`
-const { removeExtensionFromFile } = require('../controllers/base')
+const { removeExtensionFromFile, handleError } = require('../controllers/base')
 
 /*
  * Load routes statically and/or dynamically
@@ -32,11 +32,7 @@ router.get('/api', (req, res) => {
  * Handle 404 error
  */
 router.use('*', (req, res) => {
-  res.status(404).json({
-    errors: {
-      msg: 'NOT_FOUND'
-    }
-  })
+  handleError(res, 404, 'NOT_FOUND')
 })
 
 module.exports = router

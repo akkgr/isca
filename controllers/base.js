@@ -6,10 +6,8 @@ exports.removeExtensionFromFile = file => {
     .toString()
 }
 
-exports.handleError = (res, err) => {
-  res.status(err.code).json({
-    errors: {
-      msg: err.message
-    }
+exports.handleError = (res, code, message) => {
+  res.status(code).json({
+    message: message
   })
 }
