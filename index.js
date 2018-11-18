@@ -56,19 +56,20 @@ initDb(function(err, client, db) {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
       },
       function(jwt_payload, done) {
-        db.collection('users').findOne({ id: jwt_payload.sub }, function(
-          err,
-          user
-        ) {
-          if (err) {
-            return done(err, false)
+        db.collection('users').findOne(
+          { id: jwt_payload.sub },
+          { password: 0 },
+          function(err, user) {
+            if (err) {
+              return done(err, false)
+            }
+            if (user) {
+              return done(null, user)
+            } else {
+              return done(null, false)
+            }
           }
-          if (user) {
-            return done(null, user)
-          } else {
-            return done(null, false)
-          }
-        })
+        )
       }
     )
   )
