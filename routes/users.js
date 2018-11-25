@@ -41,7 +41,7 @@ router.get('/', requireAuth, async (req, res) => {
       { title: 'Username', key: 'username' },
       { title: 'Email', key: 'email' }
     ],
-    data: data.map(item=>{key:item.id,...item})
+    data: data
   })
 })
 
