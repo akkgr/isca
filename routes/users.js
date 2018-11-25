@@ -34,7 +34,15 @@ router.get('/', requireAuth, async (req, res) => {
     .collection('users')
     .find({})
     .toArray()
-  res.json(data)
+  res.json({
+    columns: [
+      { title: 'Επώνυμο', key: 'lastname' },
+      { title: 'Όνομα', key: 'firstname' },
+      { title: 'Username', key: 'username' },
+      { title: 'Email', key: 'email' }
+    ],
+    data: data.map(item=>{key:item.id,...item})
+  })
 })
 
 router.post('/', requireAuth, async (req, res) => {
