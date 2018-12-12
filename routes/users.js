@@ -3,6 +3,7 @@ const router = express.Router()
 const passport = require('passport')
 const Joi = require('joi')
 const { handleError } = require('../controllers/base')
+const mongo = require('mongodb')
 
 const requireAuth = passport.authenticate('jwt', {
   session: false
@@ -36,6 +37,24 @@ router.get('/', requireAuth, async (req, res) => {
     .toArray()
   res.json({
     columns: [
+      { title: 'Επώνυμο', key: 'lastname' },
+      { title: 'Όνομα', key: 'firstname' },
+      { title: 'Username', key: 'username' },
+      { title: 'Email', key: 'email' }
+    ],
+    data: data
+  })
+})
+
+router.get('/:id', requireAuth, async (req, res) => {
+  const db = require('../db').getDb()
+  const oid = new mongo.ObjectID(req.params.id)
+  const data = await db
+    .collection('users')
+    .find({ _id: oid })
+    .toArray()
+  res.json({
+    fields: [
       { title: 'Επώνυμο', key: 'lastname' },
       { title: 'Όνομα', key: 'firstname' },
       { title: 'Username', key: 'username' },
